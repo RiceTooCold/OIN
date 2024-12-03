@@ -1,31 +1,11 @@
-team_id,abbreviation,name,city,owner
-1610612737,ATL,Hawks,Atlanta,Tony Ressler
-1610612738,BOS,Celtics,Boston,
-1610612751,BKN,Nets,Brooklyn,Joe Tsai
-1610612766,CHA,Hornets,Charlotte,Michael Jordan
-1610612741,CHI,Bulls,Chicago,Michael Reinsdorf
-1610612739,CLE,Cleveland,Cavaliers,
-1610612742,DAL,Mavericks,Dallas,Mark Cuban
-1610612743,DEN,Nuggets,Denver,Stan Kroenke
-1610612765,DET,Pistons,Detroit,Tom Gores
-1610612744,GSW,Warriors,Golden State,Joe Lacob
-1610612745,HOU,Rockets,Houston,Tilman Fertitta
-1610612754,IND,Pacers,Indiana,Herb Simon
-1610612746,LAC,Clippers,Los Angeles,Steve Ballmer
-1610612747,LAL,Lakers,Los Angeles,Jeanie Buss
-1610612763,MEM,Grizzlies,Memphis,Robert Pera
-1610612748,MIA,Heat,Miami,Micky Arison
-1610612749,MIL,Bucks,Milwaukee,Wesley Edens &?Marc Lasry
-1610612750,MIN,Timberwolves,Minnesota,Glen Taylor
-1610612740,NOP,New Orleans,Pelicans,
-1610612752,NYK,New York,Knicks,
-1610612760,OKC,Thunder,Oklahoma City,Clay Bennett
-1610612753,ORL,Orlando,Magic,
-1610612755,PHI,76ers,Philadelphia,Joshua Harris & David Blitzer
-1610612756,PHX,Suns,Phoenix,Mat Ishbia
-1610612757,POR,Trail Blazers,Portland,Jody Allen
-1610612758,SAC,Kings,Sacramento,Vivek Ranadive
-1610612759,SAS,Spurs,San Antonio,Peter Holt
-1610612761,TOR,Raptors,Toronto,Lawrence Tanenbaum
-1610612762,UTA,Jazz,Utah,Ryan Smith
-1610612764,WAS,Wizards,Washington,Ted Leonsis
+Gambler_id,Gam_name,Email,Password,Join_date,Balance
+G00001,sanchezrichard,moralesmichael@google.com,tgVJtS0pmf,2020-07-14,7914.51
+G00002,fmartin,reyeskenneth@google.com,mVTisjc2Ox,2022-11-25,8588.79
+G00003,david94,patricia26@google.com,0JjnbKLJaM,2023-07-24,8493.05
+G00004,meadowskyle,jessica52@google.com,GECRqwNOqY,2020-10-29,5328.74
+G00005,anthonychen,nichole08@google.com,6vWU4sV4y7,2024-04-30,8000.36
+G00006,test1,test1@google.com,0000000001,2024-04-30,735.36
+G00007,test2,test2@google.com,0000000002,2023-01-30,1231.21
+G00008,test3,test3@google.com,0000000003,2020-06-22,1512.41
+G00009,test4,test4@google.com,0000000004,2019-03-01,8812.12
+G00010,test5,test5@google.com,0000000005,2021-12-09,1223.51
