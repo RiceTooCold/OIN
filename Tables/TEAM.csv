@@ -1,9 +1,9 @@
 team_id,abbreviation,name,city,owner
 1610612737,ATL,Hawks,Atlanta,Tony Ressler
-1610612738,BOS,Celtics,Boston,
 1610612751,BKN,Nets,Brooklyn,Joe Tsai
-1610612766,CHA,Hornets,Charlotte,Michael Jordan
+1610612738,BOS,Celtics,Boston,
 1610612741,CHI,Bulls,Chicago,Michael Reinsdorf
+1610612766,CHO,Hornets,Charlotte,Michael Jordan
 1610612739,CLE,Cleveland,Cavaliers,
 1610612742,DAL,Mavericks,Dallas,Mark Cuban
 1610612743,DEN,Nuggets,Denver,Stan Kroenke
