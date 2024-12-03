@@ -1,31 +1,31 @@
-team_id,abbreviation,name,city,owner
-1610612737,ATL,Hawks,Atlanta,Tony Ressler
-1610612738,BOS,Celtics,Boston,
-1610612751,BKN,Nets,Brooklyn,Joe Tsai
-1610612766,CHA,Hornets,Charlotte,Michael Jordan
-1610612741,CHI,Bulls,Chicago,Michael Reinsdorf
-1610612739,CLE,Cleveland,Cavaliers,
-1610612742,DAL,Mavericks,Dallas,Mark Cuban
-1610612743,DEN,Nuggets,Denver,Stan Kroenke
-1610612765,DET,Pistons,Detroit,Tom Gores
-1610612744,GSW,Warriors,Golden State,Joe Lacob
-1610612745,HOU,Rockets,Houston,Tilman Fertitta
-1610612754,IND,Pacers,Indiana,Herb Simon
-1610612746,LAC,Clippers,Los Angeles,Steve Ballmer
-1610612747,LAL,Lakers,Los Angeles,Jeanie Buss
-1610612763,MEM,Grizzlies,Memphis,Robert Pera
-1610612748,MIA,Heat,Miami,Micky Arison
-1610612749,MIL,Bucks,Milwaukee,Wesley Edens &?Marc Lasry
-1610612750,MIN,Timberwolves,Minnesota,Glen Taylor
-1610612740,NOP,New Orleans,Pelicans,
-1610612752,NYK,New York,Knicks,
-1610612760,OKC,Thunder,Oklahoma City,Clay Bennett
-1610612753,ORL,Orlando,Magic,
-1610612755,PHI,76ers,Philadelphia,Joshua Harris & David Blitzer
-1610612756,PHX,Suns,Phoenix,Mat Ishbia
-1610612757,POR,Trail Blazers,Portland,Jody Allen
-1610612758,SAC,Kings,Sacramento,Vivek Ranadive
-1610612759,SAS,Spurs,San Antonio,Peter Holt
-1610612761,TOR,Raptors,Toronto,Lawrence Tanenbaum
-1610612762,UTA,Jazz,Utah,Ryan Smith
-1610612764,WAS,Wizards,Washington,Ted Leonsis
+stadium_id,t_id,s_name,capacity
+s001,1610612737,State Farm Arena,18729
+s002,1610612738,TD Garden,
+s003,1610612751,Barclays Center,
+s004,1610612766,Spectrum Center,19026
+s005,1610612741,United Center,21711
+s006,1610612739,Rocket Mortgage Fieldhouse,
+s007,1610612742,American Airlines Center,19200
+s008,1610612743,Ball Arena,
+s009,1610612765,Little Caesars Arena,
+s010,1610612744,Chase Center,
+s011,1610612745,Toyota Center,18104
+s012,1610612754,Gainbridge Fieldhouse,18345
+s013,1610612746,Crypto.com Arena,19060
+s014,1610612747,Crypto.com Arena,19060
+s015,1610612763,FedEx Forum,18119
+s016,1610612748,Kaseya Center,19600
+s017,1610612749,Fiserv Forum,17500
+s018,1610612750,Target Center,19356
+s019,1610612740,Smoothie King Center,
+s020,1610612752,Madison Square Garden (IV),
+s021,1610612760,Paycom Center,
+s022,1610612753,Amway Center,
+s023,1610612755,Wells Fargo Center,
+s024,1610612756,Footprint Center,
+s025,1610612757,Moda Center,19980
+s026,1610612758,Golden 1 Center,17500
+s027,1610612759,Frost Bank Center,18694
+s028,1610612761,Scotiabank Arena,
+s029,1610612762,Delta Center,
+s030,1610612764,Capital One Arena,20647
