@@ -1,14 +1,14 @@
 stadium_id,t_id,s_name,capacity
 s001,1610612737,State Farm Arena,18729
-s002,1610612738,TD Garden,
-s003,1610612751,Barclays Center,
+s002,1610612738,TD Garden,20384
+s003,1610612751,Barclays Center,15693
 s004,1610612766,Spectrum Center,19026
 s005,1610612741,United Center,21711
-s006,1610612739,Rocket Mortgage Fieldhouse,
+s006,1610612739,Rocket Mortgage Fieldhouse,17305
 s007,1610612742,American Airlines Center,19200
-s008,1610612743,Ball Arena,
-s009,1610612765,Little Caesars Arena,
-s010,1610612744,Chase Center,
+s008,1610612743,Ball Arena,18362
+s009,1610612765,Little Caesars Arena,18463
+s010,1610612744,Chase Center,16394
 s011,1610612745,Toyota Center,18104
 s012,1610612754,Gainbridge Fieldhouse,18345
 s013,1610612746,Crypto.com Arena,19060
@@ -17,15 +17,15 @@ s015,1610612763,FedEx Forum,18119
 s016,1610612748,Kaseya Center,19600
 s017,1610612749,Fiserv Forum,17500
 s018,1610612750,Target Center,19356
-s019,1610612740,Smoothie King Center,
-s020,1610612752,Madison Square Garden (IV),
-s021,1610612760,Paycom Center,
-s022,1610612753,Amway Center,
-s023,1610612755,Wells Fargo Center,
-s024,1610612756,Footprint Center,
+s019,1610612740,Smoothie King Center,18432
+s020,1610612752,Madison Square Garden (IV),21933
+s021,1610612760,Paycom Center,19473
+s022,1610612753,Amway Center,19222
+s023,1610612755,Wells Fargo Center,18022
+s024,1610612756,Footprint Center,17220
 s025,1610612757,Moda Center,19980
 s026,1610612758,Golden 1 Center,17500
 s027,1610612759,Frost Bank Center,18694
-s028,1610612761,Scotiabank Arena,
-s029,1610612762,Delta Center,
+s028,1610612761,Scotiabank Arena,16299
+s029,1610612762,Delta Center,15483
 s030,1610612764,Capital One Arena,20647
