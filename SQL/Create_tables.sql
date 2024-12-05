@@ -50,7 +50,7 @@ CREATE TABLE GAME (
     away_score INT,                     -- 客隊得分
     home_win CHAR(1) CHECK (home_win IN ('W', 'L')), -- 主隊勝利
     game_date DATE NOT NULL,      -- 開賽時間
-    status VARCHAR(20) NOT NULL CHECK (status IN ('Ongoing', 'Ended', 'Not yet started')), -- 狀態
+    status ENUM NOT NULL CHECK (status IN ('Ongoing', 'Ended', 'Not yet started')), -- 狀態
     CONSTRAINT fk_season_year FOREIGN KEY (season_id) REFERENCES SEASON(season_id)
         ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT fk_stadium_id FOREIGN KEY (stadium_id) REFERENCES STADIUM(stadium_id)
@@ -73,6 +73,14 @@ CREATE TABLE GAMBLER (
 );
 DROP TABLE GAMBLER CASCADE;
 SELECT * FROM GAMBLER;
+--------------------------------
+CREATE TABLE ADMIN (
+    admin_id VARCHAR(10) PRIMARY KEY NOT NULL, -- 管理員ID，主鍵
+    admin_name VARCHAR(20) NOT NULL,          -- 管理員名稱
+    password VARCHAR(50) NOT NULL             -- 密碼
+);
+DROP TABLE ADMIN CASCADE;
+SELECT * FROM ADMIN;
 --------------------------------
 CREATE TABLE BET_TYPE (
     type_id VARCHAR(10) PRIMARY KEY NOT NULL,            -- 下注類型代號，主鍵
@@ -100,7 +108,7 @@ CREATE TABLE GAMBLER_BETS (
     rec_id VARCHAR(10) NOT NULL,                          -- 賠率記錄代號，外鍵
     which_side VARCHAR(10) NOT NULL,                -- 下注區選擇
     amount DECIMAL NOT NULL,                            -- 金額
-    status VARCHAR(20) NOT NULL CHECK (status IN ('Completed', 'Cancelled', 'Pending')), -- 狀態
+    status ENUM NOT NULL CHECK (status IN ('Completed', 'Cancelled', 'Pending')), -- 狀態
     CONSTRAINT fk_gamb_id FOREIGN KEY (gamb_id) REFERENCES GAMBLER(gambler_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_rec_id FOREIGN KEY (rec_id) REFERENCES BETS_ODD_RECORD(record_id)
@@ -116,11 +124,11 @@ CREATE TABLE BETS_ODD_RECORD (
     odd_1 DECIMAL NOT NULL,                         -- 賠率1
     odd_2 DECIMAL NOT NULL,                         -- 賠率2
     latest_modified TIMESTAMP NOT NULL,             -- 最後修改時間
-    status VARCHAR(20) NOT NULL CHECK (status IN ('Expired', 'Processing', 'Not yet started')), -- 狀態
+    status ENUM NOT NULL CHECK (status IN ('Expired', 'Processing', 'Not yet started')), -- 狀態
     CONSTRAINT fk_game_id FOREIGN KEY (game_id) REFERENCES GAME(game_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_type_id FOREIGN KEY (type_id) REFERENCES BET_TYPE(type_id)
         ON DELETE SET NULL ON UPDATE CASCADE
 );
-DROP TABLE GAMBLER_BETS CASCADE;
-SELECT * FROM GAMBLER_BETS;
+DROP TABLE BETS_ODD_RECORD CASCADE;
+SELECT * FROM BETS_ODD_RECORD;
