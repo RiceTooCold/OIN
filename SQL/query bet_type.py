@@ -69,6 +69,7 @@ def main():
     options = display_bet_types()
     if options:
         selected_option = input("Enter the number of the bet type to see its manual: ")
+        print("-" * 40)
         display_bet_manual(selected_option, options)
 
 # Example usage
