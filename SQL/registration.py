@@ -36,22 +36,25 @@ def check_gambler_name(name):
             conn.close()
     return False
 
-# Function to validate gambler's password
+# Function to validate gambler's password and return balance if valid
 def validate_gambler_password(name, password):
-    query = "SELECT gambler_id FROM GAMBLER WHERE gam_name = %s AND password = %s;"
+    query = "SELECT balance FROM GAMBLER WHERE gam_name = %s AND password = %s;"
     conn = connect_db()
     if conn:
         try:
             with conn.cursor() as cur:
                 cur.execute(query, (name, password))
                 result = cur.fetchone()
-                return result is not None  # True if password matches, False otherwise
+                if result:
+                    return result[0]  # Return balance if password matches
+                else:
+                    return None
         except Exception as e:
             print(f"Error validating password: {e}")
-            return False
+            return None
         finally:
             conn.close()
-    return False
+    return None
 
 # Function to get the next gambler_id
 def get_next_gambler_id(conn):
@@ -94,6 +97,7 @@ def register_gambler(name, password, email):
         # Commit the transaction
         conn.commit()
         print(f"Registration successful. Welcome, {name}!")
+        print(f"Your balance is: {balance}")
     except Exception as e:
         # Rollback the transaction in case of error
         conn.rollback()
@@ -102,7 +106,7 @@ def register_gambler(name, password, email):
         # Ensure the connection is closed
         conn.close()
 
-# Function to manage login or registration with password retry
+# Function to manage login or registration with balance display
 def manage_login_or_registration():
     name = input("Enter your name: ")
 
@@ -110,8 +114,10 @@ def manage_login_or_registration():
         # User exists, validate password
         while True:
             password = input("Enter your password: ")
-            if validate_gambler_password(name, password):
+            balance = validate_gambler_password(name, password)
+            if balance is not None:
                 print(f"Login successful. Welcome back, {name}!")
+                print(f"Your balance is: {balance}")
                 break
             else:
                 print("Incorrect password. Please try again.")
