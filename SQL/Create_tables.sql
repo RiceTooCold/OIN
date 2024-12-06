@@ -94,7 +94,7 @@ SELECT * FROM BET_TYPE;
 CREATE TABLE CASHFLOW_RECORD (
     trans_id VARCHAR(10) PRIMARY KEY NOT NULL,            -- 交易代號，主鍵
     gamb_id VARCHAR(10) NOT NULL,                         -- 玩家代號，外鍵
-    trans_type VARCHAR(20) NOT NULL,                -- 交易類型
+    trans_type VARCHAR(20) NOT NULL CHECK(trans_type IN ('Earn', 'Bet','Bet Cancelled','Deposit', 'Withdraw')),               -- 交易類型
     cashflow DECIMAL NOT NULL,                      -- 現金流量
     time TIMESTAMP NOT NULL,                        -- 交易時間
     CONSTRAINT fk_gamb_id FOREIGN KEY (gamb_id) REFERENCES GAMBLER(gambler_id)
@@ -107,7 +107,8 @@ CREATE TABLE GAMBLER_BETS (
     bet_time TIMESTAMP NOT NULL,                              -- 下注時間
     gamb_id VARCHAR(10) NOT NULL,                            -- 投注者代號，外鍵
     rec_id VARCHAR(10) NOT NULL,                             -- 賠率記錄代號，外鍵
-    which_side VARCHAR(10) NOT NULL,                         -- 下注區選擇
+    which_side VARCHAR(10) NOT NULL CHECK(which_side IN ('Home', 'Away')),    -- 下注區選擇
+	odd DECIMAL NOT NULL,
     amount DECIMAL NOT NULL,                                 -- 金額
     status VARCHAR(20) NOT NULL CHECK (status IN ('Completed', 'Cancelled', 'Pending')), -- 狀態
     CONSTRAINT pk_gambler_bets PRIMARY KEY (bet_time, gamb_id, rec_id), -- 複合主鍵
@@ -135,9 +136,4 @@ CREATE TABLE BETS_ODD_RECORD (
 DROP TABLE BETS_ODD_RECORD CASCADE;
 SELECT * FROM BETS_ODD_RECORD;
 
--- if needed 
--- CREATE TYPE status_enum AS ENUM ('Expired', 'Processing', 'Not yet started');  for BETS_ODD__RECORD
--- CREATE TYPE status_enum1 AS ENUM ('Completed', 'Cancelled', 'Pending');  for gambler_bets
--- status status_enum NOT NULL,
--- status status_enum1 NOT NULL,
--- SQLBook: Code
+
