@@ -1,3 +1,4 @@
+-- SQLBook: Code
 CREATE TABLE TEAM (
     team_id BIGINT PRIMARY KEY,     -- 球隊ID，為唯一鍵
     abbreviation VARCHAR(3) NOT NULL, -- 縮寫
@@ -132,3 +133,10 @@ CREATE TABLE BETS_ODD_RECORD (
 );
 DROP TABLE BETS_ODD_RECORD CASCADE;
 SELECT * FROM BETS_ODD_RECORD;
+
+-- if needed 
+-- CREATE TYPE status_enum AS ENUM ('Expired', 'Processing', 'Not yet started');  for BETS_ODD__RECORD
+-- CREATE TYPE status_enum1 AS ENUM ('Completed', 'Cancelled', 'Pending');  for gambler_bets
+-- status status_enum NOT NULL,
+-- status status_enum1 NOT NULL,
+-- SQLBook: Code
