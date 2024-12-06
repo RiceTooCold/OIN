@@ -104,12 +104,13 @@ DROP TABLE CASHFLOW_RECORD CASCADE;
 SELECT * FROM CASHFLOW_RECORD;
 --------------------------------
 CREATE TABLE GAMBLER_BETS (
-    bet_time TIMESTAMP PRIMARY KEY NOT NULL,         -- 下注時間，主鍵
-    gamb_id VARCHAR(10) NOT NULL,                         -- 投注者代號，外鍵
-    rec_id VARCHAR(10) NOT NULL,                          -- 賠率記錄代號，外鍵
-    which_side VARCHAR(10) NOT NULL,                -- 下注區選擇
-    amount DECIMAL NOT NULL,                            -- 金額
+    bet_time TIMESTAMP NOT NULL,                              -- 下注時間
+    gamb_id VARCHAR(10) NOT NULL,                            -- 投注者代號，外鍵
+    rec_id VARCHAR(10) NOT NULL,                             -- 賠率記錄代號，外鍵
+    which_side VARCHAR(10) NOT NULL,                         -- 下注區選擇
+    amount DECIMAL NOT NULL,                                 -- 金額
     status VARCHAR(20) NOT NULL CHECK (status IN ('Completed', 'Cancelled', 'Pending')), -- 狀態
+    CONSTRAINT pk_gambler_bets PRIMARY KEY (bet_time, gamb_id, rec_id), -- 複合主鍵
     CONSTRAINT fk_gamb_id FOREIGN KEY (gamb_id) REFERENCES GAMBLER(gambler_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_rec_id FOREIGN KEY (rec_id) REFERENCES BETS_ODD_RECORD(record_id)
