@@ -51,7 +51,7 @@ def update_bet_odds(record_id, new_odd_1, new_odd_2):
     query = """
     UPDATE BET_ODDS_RECORD
     SET odd_1 = %s, odd_2 = %s
-    WHERE record_id = %s AND status != 'Completed';
+    WHERE record_id = %s AND status = 'Processing';
     """
     conn = connect_db()
     if conn:
