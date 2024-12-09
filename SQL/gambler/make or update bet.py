@@ -55,7 +55,7 @@ def handle_bet_transaction():
                 # Fetch odds for the selected record
                 record_query = """
                 SELECT record_id, odd_1, odd_2, latest_modified, status
-                FROM BETS_ODD_RECORD
+                FROM BET_ODDS_RECORD
                 WHERE record_id = %s;
                 """
                 cur.execute(record_query, (rec_id,))

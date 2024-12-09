@@ -26,7 +26,7 @@ def fetch_bet_odds_record(record_id):
         odd_1, 
         odd_2, 
         status 
-    FROM BETS_ODD_RECORD
+    FROM BET_ODDS_RECORD
     WHERE record_id = %s;
     """
     conn = connect_db()
@@ -49,7 +49,7 @@ def fetch_bet_odds_record(record_id):
 # Function to update bet odds
 def update_bet_odds(record_id, new_odd_1, new_odd_2):
     query = """
-    UPDATE BETS_ODD_RECORD
+    UPDATE BET_ODDS_RECORD
     SET odd_1 = %s, odd_2 = %s
     WHERE record_id = %s AND status != 'Completed';
     """

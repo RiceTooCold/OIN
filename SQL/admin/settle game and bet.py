@@ -92,7 +92,7 @@ def settle_game(game_id):
 
                 # Update bet records to Expire
                 update_bet_records_query = """
-                UPDATE BETS_ODD_RECORD
+                UPDATE BET_ODDS_RECORD
                 SET status = 'Expired'
                 WHERE game_id = %s AND status = 'Processing';
                 """
@@ -102,7 +102,7 @@ def settle_game(game_id):
                 bets_query = """
                 SELECT b.gamb_id, b.rec_id, b.which_side, b.odd, b.amount
                 FROM GAMBLER_BETS b
-                JOIN BETS_ODD_RECORD r ON b.rec_id = r.record_id
+                JOIN BET_ODDS_RECORD r ON b.rec_id = r.record_id
                 WHERE r.game_id = %s AND b.status = 'Pending';
                 """
                 cur.execute(bets_query, (game_id,))
