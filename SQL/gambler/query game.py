@@ -155,3 +155,6 @@ if __name__ == "__main__":
     bet_types, history_df = fetch_game_details(game_id)
     if bet_types:
         gambling_phase(bet_types)
+
+
+
