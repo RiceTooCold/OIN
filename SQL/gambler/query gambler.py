@@ -32,15 +32,28 @@ def fetch_gambler_details(gambler_id):
     """
     bets_query = """
     SELECT 
-        bet_time, 
-        rec_id, 
-        which_side, 
-        amount, 
-        status 
-    FROM GAMBLER_BETS
-    WHERE gamb_id = %s
-    ORDER BY bet_time DESC
-    LIMIT 5;
+        gb.bet_time, 
+        gb.rec_id, 
+        gb.which_side, 
+        gb.amount, 
+        gb.status,
+        CASE
+            WHEN g.status != 'Ended' THEN 'Processing'
+            WHEN g.home_win = 'W' AND gb.which_side = 'Home' THEN 'Win'
+            WHEN g.home_win = 'L' AND gb.which_side = 'Away' THEN 'Win'
+            ELSE 'Lose'
+        END AS result
+    FROM GAMBLER_BETS gb
+    JOIN BET_ODDS_RECORD bor ON gb.rec_id = bor.record_id
+    JOIN GAME g ON bor.game_id = g.game_id
+    WHERE gb.gamb_id = %s
+    ORDER BY 
+        CASE 
+            WHEN g.status != 'Ended' THEN 1
+            ELSE 2
+        END ASC,
+        gb.bet_time DESC
+    LIMIT 10;
     """
     total_amount_query = """
     SELECT 
@@ -68,12 +81,12 @@ def fetch_gambler_details(gambler_id):
                     cur.execute(total_amount_query, (gambler_id,))
                     total_amount = cur.fetchone()[0]
 
-                    # Fetch last 5 bets
+                    # Fetch last 5 bets with results
                     cur.execute(bets_query, (gambler_id,))
                     bets = cur.fetchall()
                     if bets:
                         # Convert bets to DataFrame
-                        columns = ["Bet Time", "Record ID", "Side", "Amount", "Status"]
+                        columns = ["Bet Time", "Record ID", "Side", "Amount", "Status", "Result"]
                         bets_df = pd.DataFrame(bets, columns=columns)
 
                         # Display DataFrame and total amount
@@ -94,4 +107,3 @@ if __name__ == "__main__":
     gambler_id = input("Enter the gambler ID to fetch details: ")
     print("-" * 40)
     fetch_gambler_details(gambler_id)
-

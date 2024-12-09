@@ -44,13 +44,13 @@ def fetch_bets_by_date(bet_date):
                 CASE
                     WHEN g.home_win = 'W' AND gb.which_side = 'Home' THEN gb.amount * gb.odd
                     WHEN g.home_win = 'L' AND gb.which_side = 'Away' THEN gb.amount * gb.odd
-                    ELSE 0
+                    ELSE -gb.amount
                 END AS winnings
             FROM GAMBLER_BETS gb
             JOIN BET_ODDS_RECORD bor ON gb.rec_id = bor.record_id
             JOIN GAME g ON bor.game_id = g.game_id
-            WHERE DATE(g.game_date) = %s
-            ORDER BY gb.amount DESC, winnings DESC;
+            WHERE DATE(g.game_date) = %s AND gb.status = 'Completed'
+            ORDER BY winnings DESC;
             """
             cur.execute(bets_query, (bet_date,))
             bets = cur.fetchall()
