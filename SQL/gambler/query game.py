@@ -42,9 +42,10 @@ def fetch_game_details(game_id):
         bt.type_name, 
         bor.odd_1,
         bor.odd_2
-    FROM BETS_ODD_RECORD bor
+    FROM BET_ODDS_RECORD bor
     JOIN BET_TYPE bt ON bor.type_id = bt.type_id
-    WHERE bor.game_id = %s;
+    WHERE bor.game_id = %s 
+        AND bor.status != 'Not yet started';
     """
     history_query = """
     SELECT 
@@ -154,3 +155,6 @@ if __name__ == "__main__":
     bet_types, history_df = fetch_game_details(game_id)
     if bet_types:
         gambling_phase(bet_types)
+
+
+

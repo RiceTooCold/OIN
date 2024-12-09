@@ -120,7 +120,7 @@ CREATE TABLE GAMBLER_BETS (
 DROP TABLE GAMBLER_BETS CASCADE;
 SELECT * FROM GAMBLER_BETS;
 --------------------------------
-CREATE TABLE BETS_ODD_RECORD (
+CREATE TABLE BET_ODDS_RECORD (
     record_id VARCHAR(10) PRIMARY KEY NOT NULL,           -- 賠率記錄代號，主鍵
     game_id BIGINT NOT NULL,                         -- 比賽代號，外鍵
     type_id VARCHAR(10) NOT NULL,                         -- 下注類型代號，外鍵
@@ -133,7 +133,35 @@ CREATE TABLE BETS_ODD_RECORD (
     CONSTRAINT fk_type_id FOREIGN KEY (type_id) REFERENCES BET_TYPE(type_id)
         ON DELETE SET NULL ON UPDATE CASCADE
 );
-DROP TABLE BETS_ODD_RECORD CASCADE;
-SELECT * FROM BETS_ODD_RECORD;
+DROP TABLE BET_ODDS_RECORD CASCADE;
+SELECT * FROM BETS_ODDS_RECORD;
+-------------------------------------
 
+UPDATE GAME
+SET status = 'Ongoing'
+WHERE game_id = '42200111';
 
+UPDATE BETS_ODD_RECORD
+SET status = 'Processing'
+WHERE game_id = 42200111;
+
+UPDATE GAMBLER_BETS 
+SET status = 'Pending' WHERE gamb_id = 'G000000001' AND rec_id = 'R000014581';
+
+SELECT * FROM BET_ODDS_RECORD
+WHERE game_id = 42200111;
+
+SELECT * FROM GAMBLER_BETS
+WHERE gamb_id = 'G000000001';
+---------------------
+
+SELECT * FROM BET_ODDS_RECORD
+WHERE game_id = 42200212;
+
+UPDATE BET_ODDS_RECORD
+SET status = 'Not yet started'
+WHERE game_id = 42200212;
+
+SELECT *    
+FROM GAME g
+WHERE g.season_id % 10000 = 2022;
