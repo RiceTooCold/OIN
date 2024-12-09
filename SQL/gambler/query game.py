@@ -44,7 +44,8 @@ def fetch_game_details(game_id):
         bor.odd_2
     FROM BETS_ODD_RECORD bor
     JOIN BET_TYPE bt ON bor.type_id = bt.type_id
-    WHERE bor.game_id = %s;
+    WHERE bor.game_id = %s 
+        AND bor.status != 'Not yet started';
     """
     history_query = """
     SELECT 
