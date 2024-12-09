@@ -27,6 +27,8 @@ def fetch_games_by_date(date):
         g.game_date,
         t1.name AS home_team,
         t2.name AS away_team,
+        t1.abbreviation AS home_team_a,
+        t2.abbreviation AS away_team_a,
         s.s_name AS stadium_name,
         CASE 
             WHEN g.status = 'Not yet started' THEN NULL
@@ -36,6 +38,7 @@ def fetch_games_by_date(date):
             WHEN g.status = 'Not yet started' THEN NULL
             ELSE g.away_score 
         END AS away_score,
+        g.season_type,
         g.status
     FROM GAME g
     LEFT JOIN TEAM t1 ON g.home_team_id = t1.team_id
@@ -52,14 +55,15 @@ def fetch_games_by_date(date):
                 if results:
                     print(f"Games on {date}:")
                     for row in results:
-                        game_id, game_date, home_team, away_team, stadium_name, home_score, away_score, status = row
+                        game_id, game_date, home_team, away_team, home_team_a, away_team_a, stadium_name, home_score, away_score, season_type, status = row
                         print(f"GameId: {game_id}")
                         print(f"Date: {game_date}")
-                        print(f"Stadium: {stadium_name}")
+                        print(f"Season type: {season_type}")
                         print(f"Home Team: {home_team} vs Away Team: {away_team}")
                         print(f"Status: {status}")
+                        print(f"Stadium: {stadium_name}")
                         if status != 'Not yet started':
-                            print(f"Score: {home_team} {home_score} - {away_score} {away_team}")
+                            print(f"Score: {home_team_a} {home_score} - {away_score} {away_team_a}")
                         print("-" * 40)
                 else:
                     print(f"No games found on {date}.")
