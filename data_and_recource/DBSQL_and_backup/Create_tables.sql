@@ -28,12 +28,14 @@ DROP TABLE SEASON CASCADE;
 SELECT * FROM SEASON;
 -----------------------------------
 CREATE TABLE TEAM_OF_SEASON (
-    season INT,  							-- 賽季 ID，參考 SEASON 表
+    season_id INT REFERENCES SEASON(season_id),  -- 賽季 ID，參考 SEASON 表
     team_id BIGINT REFERENCES TEAM(team_id), -- 球隊 ID，參考 TEAM 表
     wins INT NOT NULL,                        -- 勝場數
     losses INT NOT NULL,                      -- 負場數
     playoffs BOOLEAN NOT NULL,                -- 是否進入季後賽
-    PRIMARY KEY (season, team_id),             -- 複合主鍵，確保每個賽季每支球隊唯一
+    PRIMARY KEY (season_id, team_id),             -- 複合主鍵，確保每個賽季每支球隊唯一
+	CONSTRAINT fk_season_id FOREIGN KEY (season_id) REFERENCES SEASON(season_id)
+        ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES TEAM(team_id)
         ON DELETE SET NULL ON UPDATE CASCADE
 );
@@ -114,7 +116,7 @@ CREATE TABLE GAMBLER_BETS (
     CONSTRAINT pk_gambler_bets PRIMARY KEY (bet_time, gamb_id, rec_id), -- 複合主鍵
     CONSTRAINT fk_gamb_id FOREIGN KEY (gamb_id) REFERENCES GAMBLER(gambler_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_rec_id FOREIGN KEY (rec_id) REFERENCES BETS_ODD_RECORD(record_id)
+    CONSTRAINT fk_rec_id FOREIGN KEY (rec_id) REFERENCES BET_ODDS_RECORD(record_id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE GAMBLER_BETS CASCADE;
@@ -134,7 +136,7 @@ CREATE TABLE BET_ODDS_RECORD (
         ON DELETE SET NULL ON UPDATE CASCADE
 );
 DROP TABLE BET_ODDS_RECORD CASCADE;
-SELECT * FROM BETS_ODDS_RECORD;
+SELECT * FROM BET_ODDS_RECORD;
 -------------------------------------
 
 UPDATE GAME

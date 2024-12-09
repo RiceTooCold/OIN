@@ -1,4 +1,3 @@
-import psycopg2
 from datetime import datetime
 from decimal import Decimal  # Import Decimal
 from ..Action import Action

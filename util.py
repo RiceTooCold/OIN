@@ -1,8 +1,9 @@
 import os
 import platform
 import time
-
 import psycopg2
+
+BUFFER_SIZE = 4096
 
 DB_CONFIG = {
     "host": "localhost",
@@ -38,11 +39,11 @@ def choises(choises):
     return msg
 
 
-def make_the_choise(conn, options):
+def make_the_choise(conn, choises):
         
-    option_idx = [x for x in range(1, len(options)+1)]
+    option_idx = [x for x in range(1, len(choises)+1)]
     
-    recv_msg = conn.recv(4096).decode('utf-8')
+    recv_msg = conn.recv(BUFFER_SIZE).decode('utf-8')
     
     while int(recv_msg) not in option_idx:
         msg = "[GET]Wrong input, please select "
@@ -50,11 +51,23 @@ def make_the_choise(conn, options):
             msg = msg + f'[{idx}] '
         msg += ': '
         conn.send(msg.encode('utf-8'))
-        
-        recv_msg = conn.recv(4096).decode("utf-8")
+        recv_msg = conn.recv(BUFFER_SIZE).decode("utf-8")
     
-    return options[int(recv_msg)-1]
+    return choises[int(recv_msg)-1]
+
+def recv_msg(conn):
+    msg = b""
+    first_recv = conn.recv(BUFFER_SIZE)
+    if "[TABLE]".encode('utf-8') not in first_recv:
+        return first_recv.decode('utf-8')
         
+    msg += first_recv
+    while True:
+        recv = conn.recv(BUFFER_SIZE)
+        msg += recv
+        if "[END]".encode('utf-8') in msg:
+            break
+    return msg.decode('utf-8').replace("[END]", '').replace("[TABLE]", '')
     
     
 def cbc_print(string: str, interval: float = 0.05):

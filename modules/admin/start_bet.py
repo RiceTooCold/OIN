@@ -1,4 +1,3 @@
-import psycopg2
 from datetime import datetime
 from ..Action import Action
 from ..util import *

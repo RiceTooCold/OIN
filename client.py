@@ -1,8 +1,6 @@
 import socket
 import sys
-import util
-
-BUFFER_SIZE = 4096
+from util import *
 
 class Client:
     def __init__(self, ip, port):
@@ -14,37 +12,14 @@ class Client:
         self.conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.conn.connect((self.ip, self.port))
 
-
-def receive_message(conn):
-    # Keep reading until the delimiter is found
-    try:
-        message = b""
-        first_chunk = conn.recv(BUFFER_SIZE)
-        if "[TABLE]".encode('utf-8') not in first_chunk:
-            return first_chunk.decode('utf-8')
-        
-        message += first_chunk
-
-        while True:
-            chunk = conn.recv(BUFFER_SIZE)
-            if not chunk:
-                raise ConnectionError("Connection lost while receiving data")
-            message += chunk
-            if "[END]".encode('utf-8') in message:
-                break
-        return message.decode('utf-8').replace("[END]", '').replace("[TABLE]", '')
-    except Exception as e:
-        print("Receive message error.")
-        print(str(e))
-        return
-
-
 def handle_response(client):
+    
     while True:
-        response = receive_message(client.conn)
+
+        response = recv_msg(client.conn)
 
         if not response:
-            print("Connection closed by the server.")
+            print("Connection closed.")
             break
         if response.find("[EXIT]") != -1:
             print(response.replace("[EXIT]", ''), end='')
@@ -90,5 +65,5 @@ def main():
     
         
 if __name__ == "__main__":
-    util.clear()
+    clear()
     main()
