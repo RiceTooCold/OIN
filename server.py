@@ -2,27 +2,35 @@ import socket
 import sys
 from threading import Thread
 import signal
-import psycopg2
-
 from util import *
-from action.admin.query_gambler import fetch_gambler_details
-from action.admin.update_odds import manage_bet_odds
-from action.gambler.make_or_update_bet import handle_bet_transaction
-from action.gambler.query_bet_type import query_bet_type
-from action.gambler.query_date import fetch_games_by_date
-from action.gambler.query_game import query_game  
-from action.gambler.update_profile import update_gambler_profile_transaction
 
-from action.registration import registration 
-from action.login import Login
-from action.logout import logout
-from action.Exit import Exit
+# admin
+from modules.admin.update_odds import manage_bet_odds
+from modules.admin.query_bets import fetch_bets_by_date
+from modules.admin.roi_rank import fetch_top_gamblers_by_roi 
+from modules.admin.start_bet import open_new_bets_with_odds 
+from modules.admin.settle_game_and_bet import settle_game
+
+# gambler
+from modules.gambler.make_or_update_bet import handle_bet_transaction
+from modules.gambler.query_bet_type import query_bet_type
+from modules.gambler.query_date import fetch_games_by_date
+from modules.gambler.query_game import query_game  
+from modules.gambler.update_profile import update_gambler_profile_transaction 
+from modules.gambler.query_gambler import fetch_gambler_details
+from modules.gambler.query_standings import query_standing  
+from modules.gambler.deposit import Deposit
+
+# login related 
+from modules.registration import registration 
+from modules.login import Login
+from modules.logout import logout
+from modules.Exit import Exit
 
 BUFFER_SIZE = 4096
-RECORD_NUM = 100
 
 welcome_action = [
-    query_game("Query game"), 
+    query_standing("Query season standing"),
     fetch_games_by_date("Fetch games by date"),
     query_bet_type("query type"),
     Login("Login"),
@@ -32,16 +40,22 @@ welcome_action = [
 
 
 Gambler_action = [
+    query_standing("Query season standing"),
+    fetch_gambler_details("Query Gambler"),
     query_game("Query game"), 
     fetch_games_by_date("Fetch games by date"),
     query_bet_type("query type"),
     handle_bet_transaction("Update bets"),
     update_gambler_profile_transaction("Update profile"),
+    Deposit("Top up"),
     logout("Log out")
 ]
 
 Admin_action = [
-    fetch_gambler_details("Fetch gambler detail"), 
+    fetch_top_gamblers_by_roi("Top5 Gamblers"),
+    fetch_bets_by_date("Query bets by date"),
+    open_new_bets_with_odds("Open bets"),
+    settle_game("settle the game"),
     manage_bet_odds("Update odds"), 
     logout("Log out")
 ]
@@ -59,51 +73,45 @@ class Server:
         self.listen_fd.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.listen_fd.bind(('', self.port))
         self.listen_fd.listen(1024)
-
-
-def signal_handler(sig, frame, db, server):
-    db.close()
-    server.listen_fd.close()
-    sys.exit(0)
-
+        
 
 def handle_connection(conn, client_addr, db, cur):
     try:
+        conn.send("\n==============================================\n              Welcome to Oin!\n   The world largest sports betting system\n".encode('utf-8'))
         
         while True: # Welcome Page
-            conn.send("----------------------------------------\nWelcome to Oin! please enjoy yourself\n".encode('utf-8'))
-            conn.send(f'[INPUT]Feel free to choise one of below choise:\n{list_option(welcome_action)})---> '.encode('utf-8'))
-            action = get_selection(conn, welcome_action)
+            conn.send(f'==============================================\n[GET]Feel free to choise one of below choises:\n-----------\n{choises(welcome_action)}-----------\n===> '.encode('utf-8'))
             
-            user = action.exec(conn, db, cur)
+            choise = make_the_choise(conn, welcome_action)
+            user = choise.exec(conn, db, cur, None)
                   
             if user == -2:
                 break
             
             elif user:
                 if user.get_role() == 1:
-                    while True:
-                        conn.send("----------------------------------------\nHi Admin! Welcome back to Oin!\n".encode('utf-8'))
-                        conn.send(f'[INPUT]Please select your option:\n{list_option(Admin_action)}---> '.encode('utf-8'))
-                        action = get_selection(conn, Admin_action)
+                    conn.send("\n=============================================\n    Hi Admin! Welcome back to Oin!\n".encode('utf-8'))
+                    
+                    while True: 
+                        conn.send(f'=============================================\n[GET]What actions you want to take?\n-----------\n{choises(Admin_action)}-----------\n===> '.encode('utf-8'))
                         
-                        next_step = action.exec(conn, db, cur)
+                        choise = make_the_choise(conn, Admin_action)
+                        next_step = choise.exec(conn, db, cur, user)
                         
                         if next_step == -1:
                             break
                     
                 if user.get_role() == 2:
-                    while True:
-                        conn.send("----------------------------------------\nHi gambler! Welcome back to Oin!\n".encode('utf-8'))
-                        conn.send(f'[INPUT]Please select your option:\n{list_option(Gambler_action)}---> '.encode('utf-8'))
-                        action = get_selection(conn, Gambler_action)
+                    conn.send("\n=============================================\n    Hi gambler! Welcome back to Oin!\n".encode('utf-8'))
+                    
+                    while True:    
+                        conn.send(f'=============================================\n[GET]Wants to make fortune? just select the options below:\n-----------\n{choises(Gambler_action)}-----------\n===> '.encode('utf-8'))
                         
-                        next_step = action.exec(conn, db, cur, user)
+                        choise = make_the_choise(conn, Gambler_action)
+                        next_step = choise.exec(conn, db, cur, user)
                         
                         if next_step == -1:
                             break
-            
-
     except Exception:
         print(f"Connection with {client_addr} close.")
         conn.close()
@@ -113,6 +121,7 @@ def handle_connection(conn, client_addr, db, cur):
         print(f"Connection with {client_addr} close.")
         conn.close()
         return  
+        
         
 def main():
     
@@ -130,10 +139,10 @@ def main():
     cur = db.cursor()
     
     # signal.signal(signal.SIGINT, signal_handler)
+    
     try:
         while True:
             (conn, client_addr) = server.listen_fd.accept()
-
             thread = Thread(target=handle_connection, args=(conn, client_addr, db, cur, ))
             thread.start()
     finally:

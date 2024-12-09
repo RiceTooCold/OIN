@@ -1,7 +1,7 @@
 import os
 import platform
 import time
-import sys
+
 import psycopg2
 
 DB_CONFIG = {
@@ -12,14 +12,51 @@ DB_CONFIG = {
     # 705046
 }
 
-
 def clear():
     if platform.system() == 'Windows':
         os.system('cls')
     else:
         os.system('clear')
+        
+        
+def connect_db():
+    try:
+        conn = psycopg2.connect(**DB_CONFIG)
+        return conn
+    except Exception as e:
+        print(f"Error connecting to database: {e}")
+        return None
+    
+
+def choises(choises):
+    msg = ''
+    for idx, choise in enumerate(choises, 1):
+        if hasattr(choise, 'get_name'): 
+            msg += f'{idx}. {choise.get_name()}\n'
+        else: 
+            msg += f'.{idx}. {choise}\n'
+    return msg
 
 
+def make_the_choise(conn, options):
+        
+    option_idx = [x for x in range(1, len(options)+1)]
+    
+    recv_msg = conn.recv(4096).decode('utf-8')
+    
+    while int(recv_msg) not in option_idx:
+        msg = "[GET]Wrong input, please select "
+        for idx in option_idx:
+            msg = msg + f'[{idx}] '
+        msg += ': '
+        conn.send(msg.encode('utf-8'))
+        
+        recv_msg = conn.recv(4096).decode("utf-8")
+    
+    return options[int(recv_msg)-1]
+        
+    
+    
 def cbc_print(string: str, interval: float = 0.05):
     '''
     Print the string char by char.
@@ -27,6 +64,7 @@ def cbc_print(string: str, interval: float = 0.05):
     for c in string:
         print(c, end='', flush=True)
         time.sleep(interval)
+
 
 def twinkle_print(string: str, interval: float = 0.2, times: int = 3):
     for _ in range(times):
@@ -36,59 +74,6 @@ def twinkle_print(string: str, interval: float = 0.2, times: int = 3):
         time.sleep(0.2)
     print(string)
     time.sleep(0.2)
-    
-# def signal_handler(sig, frame, db, server):
-#     db.close()
-#     server.listen_fd.close()
-#     sys.exit(0)
-
-
-def list_option(options):
-    msg = ''
-    if isinstance(options, dict):
-        for idx, option in options.items():
-            msg = msg + f'[{idx}] {option.get_name()}\n'
-    elif isinstance(options, list):
-        for idx, option in enumerate(options, 1):
-            if hasattr(option, 'get_name'): # Action class
-                msg += f'[{idx}] {option.get_name()}\n'
-            else: # User info item
-                msg += f'[{idx}] {option}\n'
-            
-
-    return msg
-
-
-def connect_db():
-    try:
-        conn = psycopg2.connect(**DB_CONFIG)
-        return conn
-    except Exception as e:
-        print(f"Error connecting to database: {e}")
-        return None
-
-
-def get_selection(conn, options):
-        
-    if isinstance(options, dict):
-        option_idx = options.keys()
-    else:
-        option_idx = [x for x in range(1, len(options)+1)]
-    recv_msg = conn.recv(100).decode("utf-8")
-    while int(recv_msg) not in option_idx:
-        msg = "[INPUT]Wrong input, please select "
-        for idx in option_idx:
-            msg = msg + f'[{idx}] '
-        msg += ': '
-        conn.send(msg.encode('utf-8'))
-        
-        recv_msg = conn.recv(100).decode("utf-8")
-    print("Select option:", recv_msg)
-    
-    if isinstance(options, dict):
-        return options[recv_msg]
-    else:
-        return options[int(recv_msg)-1]
 
     
     
