@@ -3,7 +3,7 @@ import sys
 import struct
 import util
 
-BUFFER_SIZE = 512
+BUFFER_SIZE = 4096
 RECORD_NUM = 10
 
 class Client:
@@ -16,6 +16,31 @@ class Client:
         self.conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.conn.connect((self.ip, self.port))
 
+
+def receive_message(conn):
+    # Keep reading until the delimiter is found
+    try:
+        message = b""
+        first_chunk = conn.recv(4096)
+        if "[TABLE]".encode('utf-8') not in first_chunk:
+            return first_chunk.decode('utf-8')
+        
+        message += first_chunk
+
+        while True:
+            chunk = conn.recv(4096)
+            if not chunk:
+                raise ConnectionError("Connection lost while receiving data")
+            message += chunk
+            if "[END]".encode('utf-8') in message:
+                break
+        return message.decode('utf-8').replace("[END]", '').replace("[TABLE]", '')
+    except Exception as e:
+        print("Receive message error.")
+        print(str(e))
+        return
+        # client_socket.close()
+        
 
 def main():
 
@@ -38,30 +63,33 @@ def main():
     # send_welcome_mes()
     
     while True:
-        print("Welcome to the Oin")
-        print("1. login")
-        print("2. logout")
-        print("3. gamble")
-        print("4. exit")
-        command = input("Please enter your command: ").strip()
-        # client.conn.send(command.encode())
-        if command == "login":
-            client.conn.send(command.encode())
-            response = client.conn.recv(1024).decode()
-            print(response)
-            if response == "0":
-                print("[Error] Maximum posting limit exceeded")
-                continue
+        recv_msg = receive_message(client.conn)
 
-        elif command == "logout":
-            client.conn.send(command.encode())
-            response = client.conn.recv(1024).decode()
+        if not recv_msg:
+            print("Connection closed by the server.")
+            break
+        if recv_msg.find("[EXIT]") != -1:
+            print(recv_msg.replace("[EXIT]", ''), end='')
+            break
+        if recv_msg.find("[INPUT]") != -1:
+            print(recv_msg.replace("[INPUT]", ''), end='')
 
-        elif command == "gamble":
-            client.conn.send(command.encode())
-        elif command == "exit":
-            client.conn.send(command.encode())
-            sys.exit(0)
+            send_msg = input().strip()
+            while len(send_msg) == 0:
+                print("Input cannot be empty. Please enter again:", end=' ')
+                send_msg = input().strip()
+
+            if send_msg == "exit":
+                break            
+            client.conn.send(send_msg.encode('utf-8'))
+            # print("send the msg")
+        
+
+        else:
+            print(recv_msg, end='')
+        
+        
+        
 
 
 if __name__ == "__main__":
