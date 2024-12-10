@@ -60,6 +60,8 @@
    ```bash
    python3 client.py [ip] [port]
 
+如果跑不動 就把 python3 改成 python
+
 
 ## 技術細節
 - 使用 Socket 建立 client-server 連線，搭配 Multithreading 達成多人同時連線 (本來有打算使用 select，但由於實作太過麻煩，故改成用 thread)
@@ -69,27 +71,27 @@
 
 ## 程式說明
 1. `./server.py`
--  包含伺服器端的主要功能。
--  在連接資料庫後，透過 socket 建立監聽服務，接收來自客戶端的連線請求。
--  每當接收到一個客戶端連線，會啟動一個獨立的執行緒（thread）處理該連線，確保伺服器能並行處理多個客戶端。
+-     包含伺服器端的主要功能。
+-     在連接資料庫後，透過 socket 建立監聽服務，接收來自客戶端的連線請求。
+-     每當接收到一個客戶端連線，會啟動一個獨立的執行緒（thread）處理該連線，確保伺服器能並行處理多個客戶端。
 2. `./client.py`
--  包含客戶端的主要功能。
--  持續從伺服器接收訊息並顯示於終端機。
--  當訊息包含特定標籤時，根據標籤執行對應的操作，例如讀取使用者輸入、讀取表格、關閉 socket 連線並結束程式。
--  對於不同 user 會進到不同 function 去做 handling
+-     包含客戶端的主要功能。
+-     持續從伺服器接收訊息並顯示於終端機。
+-     當訊息包含特定標籤時，根據標籤執行對應的操作，例如讀取使用者輸入、讀取表格、關閉 socket 連線並結束程式。
+-     對於不同 user 會進到不同 function 去做 handling
 3. `./util.py`
 - 一些與 server, client 有關的資料會放在這，以及連接 database 要用的資訊也會在這，另外一些有趣 function 也放在這
 4. `./module` 資料夾
-- 所有程式會用到的 function 都放在這，並依不同邏輯和使用對象分成共同使用, admin, gambler 去加以分類，另外以及用來記錄 role 用的 user folder
-- 所有功能都繼承抽象類別 Action，使團隊在使用或維護 function 會更加輕鬆方便 
+-     所有程式會用到的 function 都放在這，並依不同邏輯和使用對象分成共同使用, admin, gambler 去加以分類，另外以及用來記錄 role 用的 user folder
+-     所有功能都繼承抽象類別 Action，使團隊在使用或維護 function 會更加輕鬆方便 
 5. `./module/admin` 資料夾
-- 存放與 admin 相關的 function，皆為 py + SQL 的組合
+-     存放與 admin 相關的 function，皆為 py + SQL 的組合
 6. `./module/gambler` 資料夾
-- 存放與 gambler 相關的 function，皆為 py + SQL 的組合
+-     存放與 gambler 相關的 function，皆為 py + SQL 的組合
 7. `./module/user` 資料夾
-- 存放一個 class，用來在日後被宣告時，去辨別登入的 user 是 admin 還是 gambler，如此也大大簡化維護的方式，也使 code 相對簡潔有力。
+-     存放一個 class，用來在日後被宣告時，去辨別登入的 user 是 admin 還是 gambler，如此也大大簡化維護的方式，也使 code 相對簡潔有力。
 8. `./data_and_recource` 資料夾
--  存放組內自己的資料用的
+-     存放組內自己的資料用的
 
 ## 開發環境
 
