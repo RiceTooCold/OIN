@@ -56,9 +56,16 @@ class handle_bet_transaction(Action):
 
                 # Fetch odds for the selected record
                 record_query = """
-                SELECT record_id, odd_1, odd_2, latest_modified, status
-                FROM BET_ODDS_RECORD
-                WHERE record_id = %s;
+                SELECT 
+                    bor.record_id, 
+                    bor.odd_1, 
+                    bor.odd_2, 
+                    bor.latest_modified, 
+                    bor.status AS bet_status, 
+                    g.status AS game_status
+                FROM BET_ODDS_RECORD bor
+                JOIN GAME g ON bor.game_id = g.game_id
+                WHERE bor.record_id = %s;
                 """
                 cur.execute(record_query, (rec_id,))
                 record = cur.fetchone()
@@ -67,11 +74,14 @@ class handle_bet_transaction(Action):
                     conn.send("Invalid Record ID.\n".encode('utf-8'))
                     return
 
-                _, odd_1, odd_2, latest_modified, status = record
+                _, odd_1, odd_2, latest_modified, rcd_status, game_status = record
 
                 # Check if the record is expired
-                if status == "Expired":
+                if rcd_status == "Expired":
                     conn.send("This record has expired. You cannot place a bet on it. Please try again\n".encode('utf-8'))
+                    return
+                elif game_status == "Ended":
+                    conn.send("This game has ended. You cannot place a bet on it. Please try again\n".encode('utf-8'))
                     return
                 else:
                     break
@@ -128,7 +138,7 @@ class handle_bet_transaction(Action):
                         """
                         
                         cur.execute(cancel_query, (gamb_id, bet_time_to_modify))
-                        conn.send(f"Bet with time {bet_time_to_modify} cancelled.\n\n".encode('utf-8'))
+                        conn.send(f"Bet with time {bet_time_to_modify} cancelled.\n".encode('utf-8'))
                         
                         
                         # Add back balance and add cashflow record
