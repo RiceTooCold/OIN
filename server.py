@@ -5,14 +5,13 @@ import signal
 from util import *
 
 # admin
-from modules.admin.update_odds import manage_bet_odds
 from modules.admin.query_bets import fetch_bets_by_date
 from modules.admin.roi_rank import fetch_top_gamblers_by_roi 
 from modules.admin.start_bet import open_new_bets_with_odds 
 from modules.admin.settle_game_and_bet import settle_game
 
 # gambler
-from modules.gambler.make_or_update_bet import handle_bet_transaction
+from modules.gambler.make_or_cancel_bet import handle_bet_transaction
 from modules.gambler.query_bet_type import query_bet_type
 from modules.gambler.query_date import fetch_games_by_date
 from modules.gambler.query_game import query_game  
@@ -30,9 +29,10 @@ from modules.Exit import Exit
 BUFFER_SIZE = 4096
 
 welcome_action = [
-    query_standing("Query season standing"),
-    fetch_games_by_date("Fetch games by date"),
-    query_bet_type("query type"),
+    query_standing("NBA historical season standings"),
+    fetch_games_by_date("Games on a specific date"),
+    query_game("Specific game info"), 
+    query_bet_type("Bets type"),
     Login("Login"),
     registration("Registration"),
     Exit("Exit")
@@ -40,23 +40,22 @@ welcome_action = [
 
 
 Gambler_action = [
-    query_standing("Query season standing"),
-    fetch_gambler_details("Query Gambler"),
-    query_game("Query game"), 
-    fetch_games_by_date("Fetch games by date"),
-    query_bet_type("query type"),
-    handle_bet_transaction("Update bets"),
-    update_gambler_profile_transaction("Update profile"),
+    query_standing("NBA historical season standings"),
+    query_game("Specific Game Info"), 
+    fetch_games_by_date("Games on a specific date"),
+    query_bet_type("Bets type"),
+    fetch_gambler_details("Your Profile"),
+    handle_bet_transaction("Make bets or Update historical bets"),
+    update_gambler_profile_transaction("Update Profile"),
     Deposit("Top up"),
     logout("Log out")
 ]
 
 Admin_action = [
     fetch_top_gamblers_by_roi("Top5 Gamblers"),
-    fetch_bets_by_date("Query bets by date"),
+    fetch_bets_by_date("Bets on a specific date"),
     open_new_bets_with_odds("Open bets"),
-    settle_game("settle the game"),
-    manage_bet_odds("Update odds"), 
+    settle_game("Settle the game"),
     logout("Log out")
 ]
 
@@ -77,10 +76,10 @@ class Server:
 
 def handle_connection(conn, client_addr, db, cur):
     try:
-        conn.send("\n==============================================\n              Welcome to Oin!\n   The world largest sports betting system\n".encode('utf-8'))
+        conn.send("\n[START]===============================================\n              Welcome to Oin!\n  The world largest NBA sports betting system\n".encode('utf-8'))
         
         while True: # Welcome Page
-            conn.send(f'==============================================\n[GET]Feel free to choise one of below choises:\n-----------\n{choises(welcome_action)}-----------\n===> '.encode('utf-8'))
+            conn.send(f'===============================================\n[GET]Feel free to choise one of below choises:\n-----------\n{choises(welcome_action)}-----------\n===> '.encode('utf-8'))
             
             choise = make_the_choise(conn, welcome_action)
             user = choise.exec(conn, db, cur, None)

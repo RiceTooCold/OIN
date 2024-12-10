@@ -57,7 +57,8 @@ class fetch_bets_by_date(Action):
             bets_data = print_table(bets, cur, columns)
             # Convert DataFrame to string for sending
             conn.send(f"\nBets for Date: {bet_date}\n".encode('utf-8'))
-            conn.sendall(("[TABLE]" + '\n' + bets_data + '\n\n' + "[END]").encode('utf-8'))
+            # conn.sendall(("[TABLE]" + '\n' + bets_data + '\n\n' + "[END]").encode('utf-8'))
+            conn.sendall((bets_data + '\n\n').encode('utf-8'))
 
         except Exception as e:
             conn.send(f"Error fetching bets: {e}\n".encode('utf-8'))

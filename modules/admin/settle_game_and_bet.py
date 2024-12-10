@@ -49,28 +49,9 @@ class settle_game(Action):
             game_id, home_score, away_score, home_win, status = game
 
             # Ensure the game is Ongoing before settlement
-            if status != "Ongoing":
-                conn.send(f"Game ID {game_id} is not Ongoing. Current status: {status}\n".encode('utf-8'))
+            if status != "Ended":
+                conn.send(f"Game ID {game_id} is not ended. Current status: {status}\n".encode('utf-8'))
                 return
-
-            # Determine the result of the game
-            if home_score > away_score:
-                home_win = 'W'
-            elif home_score < away_score:
-                home_win = 'L'
-            else:
-                conn.send("The game resulted in a tie. Settlement logic does not handle ties.\n".encode('utf-8'))
-                return
-
-            # Update game status and home_win
-            update_game_status_query = """
-            UPDATE GAME
-            SET status = 'Ended', home_win = %s
-            WHERE game_id = %s;
-            """
-            cur.execute(update_game_status_query, (home_win, game_id))
-
-            conn.send(f"Game ID {game_id} settled. Home team result: {'Win' if home_win == 'W' else 'Loss'}.\n".encode('utf-8'))
 
             # Update BET_ODDS_RECORD to Expire
             update_bet_records_query = """
@@ -129,4 +110,4 @@ class settle_game(Action):
 
         except Exception as e:
             conn.send(f"Error settling game: {e}\n".encode('utf-8'))
-            db.rollback()  
+            db.rollback()

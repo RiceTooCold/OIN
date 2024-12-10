@@ -99,12 +99,12 @@ class query_game(Action):
                 stats = (
                     f"\n\nOverall Record Before This Game:\n"
                     f"{home_team} (Home) won {home_wins} times.\n"
-                    f"{away_team} (Away) won {away_wins} times.\n"
+                    f"{away_team} (Away) won {away_wins} times.\n\n"
                 )
                 conn.sendall(stats.encode('utf-8'))
                 return bet_types, history_df
             else:
-                conn.send("No match history available for these teams before this game.\n".encode('utf-8'))
+                conn.send("No match history available for these teams before this game.\n\n".encode('utf-8'))
             return bet_types, pd.DataFrame()
                     
         except Exception as e:

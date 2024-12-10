@@ -48,7 +48,7 @@ def make_the_choise(conn, choises):
     while int(recv_msg) not in option_idx:
         msg = "[GET]Wrong input, please select "
         for idx in option_idx:
-            msg = msg + f'[{idx}] '
+            msg = msg + f'{idx}. '
         msg += ': '
         conn.send(msg.encode('utf-8'))
         recv_msg = conn.recv(BUFFER_SIZE).decode("utf-8")
@@ -70,7 +70,7 @@ def recv_msg(conn):
     return msg.decode('utf-8').replace("[END]", '').replace("[TABLE]", '')
     
     
-def cbc_print(string: str, interval: float = 0.05):
+def cbc_print(string: str, interval: float = 0.02):
     '''
     Print the string char by char.
     '''

@@ -52,8 +52,7 @@ class fetch_gambler_details(Action):
         try:
             # Fetch gambler details
             while True:
-                conn.send("[GET]Enter the gambler ID to fetch details: ".encode('utf-8'))
-                gambler_id = conn.recv(1024).decode('utf-8').strip()
+                gambler_id = user.get_userid()
                 cur.execute(gambler_query, (gambler_id,))
                 gambler_details = cur.fetchone()
                 if gambler_details:
@@ -63,7 +62,7 @@ class fetch_gambler_details(Action):
             # Send gambler details to the client
             gambler_info = (
                 separator + 
-                f"User Details:\n"
+                f"Your Details:\n"
                 f"Gambler ID: {gambler_details[0]}\n"
                 f"Name: {gambler_details[1]}\n"
                 f"Email: {gambler_details[2]}\n"

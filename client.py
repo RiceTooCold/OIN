@@ -22,11 +22,11 @@ def handle_response(client):
             print("Connection closed.")
             break
         if response.find("[EXIT]") != -1:
-            print(response.replace("[EXIT]", ''), end='')
+            response = response.replace("[EXIT]", '')
+            cbc_print(response)
             break
         if response.find("[GET]") != -1:
-            print(response.replace("[GET]", ''), end='')
-
+            print(response.replace("[GET]", ''), end = '')
             send_msg = input().strip()
             while len(send_msg) == 0:
                 print("Input cannot be empty. Please enter again:", end=' ')
@@ -36,6 +36,9 @@ def handle_response(client):
                 break            
             client.conn.send(send_msg.encode('utf-8'))   
 
+        elif response.find("[START]") != -1:
+            response = response.replace("[START]", '')
+            cbc_print(response)
         else:
             print(response, end='')
 

@@ -128,7 +128,7 @@ class handle_bet_transaction(Action):
                         """
                         
                         cur.execute(cancel_query, (gamb_id, bet_time_to_modify))
-                        conn.send(f"Bet with time {bet_time_to_modify} cancelled.\n".encode('utf-8'))
+                        conn.send(f"Bet with time {bet_time_to_modify} cancelled.\n\n".encode('utf-8'))
                         
                         
                         # Add back balance and add cashflow record

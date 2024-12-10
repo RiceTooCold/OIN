@@ -1,6 +1,6 @@
 from .Action import Action
 from .util import *
-from .role.user import User
+from .user.user import User
 
 class Login(Action):
 
