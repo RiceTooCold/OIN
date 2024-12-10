@@ -9,42 +9,42 @@
 ## 功能
 
 ### 通用功能
-- **Welcome Interface**: 提供用戶友好的介面，適用於新用戶與回訪用戶。
-- **Threaded Connections**: 支援多用戶同時連線，確保即時下注體驗。
-- **Database Integration**: 強大的後端數據管理系統，用於管理用戶和投注數據。
+- **Welcome Interface** : 提供用戶友好的介面，適用於新用戶與回訪用戶。
+- **Threaded Connections** : 支援多用戶同時連線，確保即時下注體驗。
+- **Database Integration** : 強大的後端數據管理系統，用於管理用戶和投注數據。
 
 ---
 
-### Welcome Page 功能 (for 未登入的 User （一般使用者）)
-- **NBA historical season standings**: 查詢賽季排行榜，了解當前運動聯賽狀況，可當作投注前的評估考量。
-- **Games on a specific date**: 按日期查看可投注的比賽，也可用來搜尋一些日子前的資訊，無論是滿足自身對 NBA 戰績的好奇或是為了賭注
-- **Specific Game Info**: 透過前一個功能所獲得的 game_id 可以拿來用在此功能，並了解更詳細的對戰情況。
-- **Bets type**: 查詢投注類型，
-- **Login**: 登入平台。
-- **Registration**: 註冊新用戶。
-- **Exit**: 離開平台。
+### Welcome Page 功能  for 未登入的 User （一般使用者）
+- **NBA historical season standings** : 查詢賽季排行榜，了解當前運動聯賽狀況，可當作投注前的評估考量。
+- **Games on a specific date** : 按日期查看可投注的比賽，也可用來搜尋一些日子前的資訊，無論是滿足自身對 NBA 戰績的好奇或是為了賭注
+- **Specific Game Info** : 透過前一個功能所獲得的 game_id 可以拿來用在此功能，並了解更詳細的對戰情況。
+- **Bets type** : 查詢投注類型，
+- **Login** : 登入平台。
+- **Registration** : 註冊新用戶。
+- **Exit** : 離開平台。
 
 ---
 
-### Gamblers 功能 (for 已登入的 User （一般使用者）)
-- **NBA historical season standings**: 查詢賽季排行榜，了解當前運動聯賽狀況，可當作投注前的評估考量。
-- **Specific Game Info**: 透過前一個功能所獲得的 game_id 可以拿來用在此功能，並了解更詳細的對戰情況。
-- **Games on a specific date**: 按日期查看可投注的比賽，也可用來搜尋一些日子前的資訊，無論是滿足自身對 NBA 戰績的好奇或是為了賭注
-- **Bets type**: 查詢投注類型，
-- **Gambler Profile**: 查看賭客詳細資料。
-- **Make bets or Update historical bets**: 下單或更新投注。
-- **Update Profile**: 更新個人資料（如姓名、email、password等）。
-- **Top up**: 進行帳戶充值操作。
-- **Log Out**: 安全登出平台。
+### Gamblers 功能  for 已登入的 User （一般使用者）
+- **NBA historical season standings** : 查詢賽季排行榜，了解當前運動聯賽狀況，可當作投注前的評估考量。
+- **Specific Game Info** : 透過前一個功能所獲得的 game_id 可以拿來用在此功能，並了解更詳細的對戰情況。
+- **Games on a specific date** : 按日期查看可投注的比賽，也可用來搜尋一些日子前的資訊，無論是滿足自身對 NBA 戰績的好奇或是為了賭注
+- **Bets type** : 查詢投注類型，
+- **Gambler Profile** : 查看賭客詳細資料。
+- **Make bets or Update historical bets** : 下單或更新投注。
+- **Update Profile** : 更新個人資料（如姓名、email、password等）。
+- **Top up** : 進行帳戶充值操作。
+- **Log Out** : 安全登出平台。
 
 ---
 
-### Administrators 功能 (for （管理員／業務經營者）)
-- **Top5 Gamblers**: 按 ROI 查詢排名前五的賭客。
-- **Bets on a specific date**: 按日期查詢投注記錄。
-- **Open bets**: 為即將開始的比賽開放投注並設置賠率。
-- **Settle the game**: 結算比賽結果，分配獎金。所有金流都會被更新到 cashflow 的 table。
-- **Log Out**: 安全登出平台。
+### Administrators 功能  for （管理員／業務經營者）
+- **Top5 Gamblers** : 按 ROI 查詢排名前五的賭客。
+- **Bets on a specific date** : 按日期查詢投注記錄。
+- **Open bets** : 為即將開始的比賽開放投注並設置賠率。
+- **Settle the game** : 結算比賽結果，分配獎金。所有金流都會被更新到 cashflow 的 table。
+- **Log Out** : 安全登出平台。
 
 ---
 
